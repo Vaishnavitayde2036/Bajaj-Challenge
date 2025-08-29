@@ -1,4 +1,4 @@
-// index.js
+
 
 const express = require('express');
 const app = express();
@@ -8,7 +8,14 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
 
-// Define the POST route for /bfhl
+
+// This handles GET requests to the base URL (e.g., when visited in a browser)
+app.get('/', (req, res) => {
+    res.status(200).send('API is running. Please use the POST method at the /bfhl endpoint.');
+});
+
+
+
 app.post('/bfhl', (req, res) => {
     try {
         // Extract the 'data' array from the request body
@@ -22,7 +29,7 @@ app.post('/bfhl', (req, res) => {
             });
         }
 
-        // --- User Information (as provided) ---
+        
         const user_id = "vaishnavi_tayde_29082025";
         const email = "taydevaishnavi261@gmail.com";
         const roll_number = "22BCY10209";
@@ -45,7 +52,7 @@ app.post('/bfhl', (req, res) => {
                 } else {
                     odd_numbers.push(String(num)); // Store as string
                 }
-            } 
+            }
             // Check if item is an alphabet string
             else if (typeof item === 'string' && /^[a-zA-Z]+$/.test(item)) {
                 alphabets.push(item.toUpperCase()); // Store uppercase version
@@ -61,14 +68,14 @@ app.post('/bfhl', (req, res) => {
         const reversed_alphabets = alphabet_string_for_concat.split('').reverse().join('');
         let concat_string = '';
         for (let i = 0; i < reversed_alphabets.length; i++) {
-            if (i % 2 !== 0) { // Alternating caps, starting with lowercase
+            if (i % 2 !== 0) { // Alternating caps, index 1 (second char) is uppercase
                 concat_string += reversed_alphabets[i].toUpperCase();
-            } else {
+            } else { // index 0 (first char) is lowercase
                 concat_string += reversed_alphabets[i].toLowerCase();
             }
         }
         
-        // --- Construct the final response object ---
+
         const response = {
             is_success: true,
             user_id: user_id,
@@ -85,6 +92,7 @@ app.post('/bfhl', (req, res) => {
         return res.status(200).json(response);
 
     } catch (error) {
+       
         return res.status(500).json({
             is_success: false,
             error: error.message
